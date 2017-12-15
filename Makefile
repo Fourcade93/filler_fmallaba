@@ -1,4 +1,4 @@
-SRC := read_input.c
+SRC := read_input.c map_funcs.c possible_put_piece.c puts_piece.c
 SRC := $(addprefix src/, $(SRC))
 OBJ := $(SRC:.c=.o)
 INC_DIR = includes/
