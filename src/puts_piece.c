@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:30:55 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/16 20:03:45 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/18 17:54:09 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,84 +36,253 @@ void	save_put_pos(char **piece, int x, int y)
 	}
 }
 
-int put_piece_bottom(char **map, char **piece, int piece_y)
+void	save_pos(t_pos check_pos)
 {
-	int x;
-	int y;
-	int ret_x;
-	int ret_y;
+	g_pos.my_x = check_pos.my_x;
+	g_pos.my_y = check_pos.my_y;
+}
 
-	y = -1;
-	ret_x = -1;
-	while (++y < g_mapy)
+int check_piece_right(char **piece, int x, int y, t_pos check_pos)
+{
+	int i;
+	int j;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	while (piece[++i])
 	{
-		if (g_mapy - y <= piece_y)
-			break;
-		x = -1;
-		while (++x < g_mapx)
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
 		{
-			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
-				possible_put_piece(map, piece, x, y))
-			{
-				if (ret_x == -1 || ret_y < y)
-				{
-					ret_x = x;
-					ret_y = y;
-				}
-			}
+			if (piece[i][j] == '*' &&
+				x > check_pos.my_x)
+				return (1);
+			x++;
 		}
-	}
-	if (ret_x != -1)
-	{
-		g_pos.dir = 2;
-		save_put_pos(piece, ret_x, ret_y);
-		ft_printf("%d %d\n", ret_y, ret_x);
-		return (1);
+		y++;
 	}
 	return (0);
 }
 
-int put_piece_top(char **map, char **piece, int piece_y)
+void put_right_pos(char **piece, int x, int y, t_pos *check_pos)
 {
-	int x;
-	int y;
-	int ret_x;
-	int ret_y;
+	int i;
+	int j;
+	int check;
+	int x_start;
 
-	y = -1;
-	ret_x = -1;
-	while (++y < g_mapy)
+	i = -1;
+	x_start = x;
+	check = 0;
+	while (piece[++i])
 	{
-		if (g_mapy - y <= piece_y)
-			break;
-		x = -1;
-		while (++x < g_mapx)
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
 		{
-			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
-				possible_put_piece(map, piece, x, y))
+			if (piece[i][j] == '*' && (!check || (check && (*check_pos).my_x < x)))
 			{
-				if (ret_x == -1 || ret_y > y)
-				{
-					ret_x = x;
-					ret_y = y;
-				}
+				(*check_pos).my_x = x;
+				(*check_pos).my_y = y;
+				check = 1;
 			}
+			x++;
 		}
+		y++;
 	}
-	if (ret_x != -1)
+}
+
+int check_piece_top_right(char **piece, int x, int y, t_pos check_pos)
+{
+	int i;
+	int j;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	while (piece[++i])
 	{
-		g_pos.dir = 1;
-		save_put_pos(piece, ret_x, ret_y);
-		ft_printf("%d %d\n", ret_y, ret_x);
-		return (1);
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' &&
+				x > check_pos.my_x && y <= g_mapy / 3)
+				return (1);
+			x++;
+		}
+		y++;
 	}
 	return (0);
+}
+
+void put_top_right_pos(char **piece, int x, int y, t_pos *check_pos)
+{
+	int i;
+	int j;
+	int check;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	check = 0;
+	while (piece[++i])
+	{
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' && (!check || (check && (*check_pos).my_x < x && y <= g_mapy / 3)))
+			{
+				(*check_pos).my_x = x;
+				(*check_pos).my_y = y;
+				check = 1;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int check_piece_bottom_left(char **piece, int x, int y, t_pos check_pos)
+{
+	int i;
+	int j;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	while (piece[++i])
+	{
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' &&
+				x <= check_pos.my_x + 2 && y >= check_pos.my_y)
+				return (1);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
+void put_bottom_left_pos(char **piece, int x, int y, t_pos *check_pos)
+{
+	int i;
+	int j;
+	int check;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	check = 0;
+	while (piece[++i])
+	{
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' && (!check || (check && (*check_pos).my_x > x && (*check_pos).my_y <= y)))
+			{
+				(*check_pos).my_x = x;
+				(*check_pos).my_y = y;
+				check = 1;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+void put_bottom_pos(char **piece, int x, int y, t_pos *check_pos)
+{
+	int i;
+	int j;
+	int check;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	check = 0;
+	while (piece[++i])
+	{
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' && (!check || (check && (*check_pos).my_y < y)))
+			{
+				(*check_pos).my_x = x;
+				(*check_pos).my_y = y;
+				check = 1;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int		check_piece_left(char **piece, int x, int y, t_pos check_pos)
+{
+	int i;
+	int j;
+	int x_start;
+
+	i = -1;
+	x_start = x;
+	while (piece[++i])
+	{
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' &&
+				x < check_pos.my_x)
+				return (1);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
+void	put_left_pos(char **piece, int x, int y, t_pos *check_pos)
+{
+	int	i;
+	int	j;
+	int	check;
+	int	x_start;
+
+	i = -1;
+	x_start = x;
+	check = 0;
+	while (piece[++i])
+	{
+		j = -1;
+		x = x_start;
+		while (piece[i][++j])
+		{
+			if (piece[i][j] == '*' && (!check || (check && (*check_pos).my_x > x)))
+			{
+				(*check_pos).my_x = x;
+				(*check_pos).my_y = y;
+				check = 1;
+			}
+			x++;
+		}
+		y++;
+	}
 }
 
 int put_piece_left(char **map, char **piece, int piece_y)
 {
 	int x;
 	int y;
+	t_pos	check_pos;
 	int ret_x;
 	int ret_y;
 
@@ -121,7 +290,7 @@ int put_piece_left(char **map, char **piece, int piece_y)
 	ret_x = -1;
 	while (++y < g_mapy)
 	{
-		if (g_mapy - y <= piece_y)
+		if (g_mapy - y < piece_y)
 			break;
 		x = -1;
 		while (++x < g_mapx)
@@ -129,18 +298,18 @@ int put_piece_left(char **map, char **piece, int piece_y)
 			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
 				possible_put_piece(map, piece, x, y))
 			{
-				if (ret_x == -1 || (ret_x >= x && ABS(g_mapy - y) > ABS(g_mapy - ret_y)))
+				if (ret_x == -1 || check_piece_left(piece, x, y, check_pos))
 				{
 					ret_x = x;
 					ret_y = y;
+					put_left_pos(piece, x, y, &check_pos);
 				}
 			}
 		}
 	}
 	if (ret_x != -1)
 	{
-		g_pos.dir = 1;
-		save_put_pos(piece, ret_x, ret_y);
+		save_pos(check_pos);
 		ft_printf("%d %d\n", ret_y, ret_x);
 		return (1);
 	}
@@ -151,6 +320,7 @@ int put_piece_right(char **map, char **piece, int piece_y)
 {
 	int x;
 	int y;
+	t_pos check_pos;
 	int ret_x;
 	int ret_y;
 
@@ -158,7 +328,7 @@ int put_piece_right(char **map, char **piece, int piece_y)
 	ret_x = -1;
 	while (++y < g_mapy)
 	{
-		if (g_mapy - y <= piece_y)
+		if (g_mapy - y < piece_y)
 			break;
 		x = -1;
 		while (++x < g_mapx)
@@ -166,18 +336,18 @@ int put_piece_right(char **map, char **piece, int piece_y)
 			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
 				possible_put_piece(map, piece, x, y))
 			{
-				if (ret_x == -1 || (ret_x <= x && ABS(g_mapy - y) < ABS(g_mapy - ret_y)))
+				if (ret_x == -1 || check_piece_right(piece, x, y, check_pos))
 				{
 					ret_x = x;
 					ret_y = y;
+					put_right_pos(piece, x, y, &check_pos);
 				}
 			}
 		}
 	}
 	if (ret_x != -1)
 	{
-		g_pos.dir = 1;
-		save_put_pos(piece, ret_x, ret_y);
+		save_pos(check_pos);
 		ft_printf("%d %d\n", ret_y, ret_x);
 		return (1);
 	}
@@ -188,6 +358,7 @@ int put_piece_top_right(char **map, char **piece, int piece_y)
 {
 	int x;
 	int y;
+	t_pos	check_pos;
 	int ret_x;
 	int ret_y;
 
@@ -195,7 +366,7 @@ int put_piece_top_right(char **map, char **piece, int piece_y)
 	ret_x = -1;
 	while (++y < g_mapy)
 	{
-		if (g_mapy - y <= piece_y)
+		if (g_mapy - y < piece_y)
 			break;
 		x = -1;
 		while (++x < g_mapx)
@@ -203,18 +374,18 @@ int put_piece_top_right(char **map, char **piece, int piece_y)
 			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
 				possible_put_piece(map, piece, x, y))
 			{
-				if (ret_x == -1 || ((ret_x <= x && ret_y >= y)))
+				if (ret_x == -1 || check_piece_top_right(piece, x, y, check_pos))
 				{
 					ret_x = x;
 					ret_y = y;
+					put_top_right_pos(piece, x, y, &check_pos);
 				}
 			}
 		}
 	}
 	if (ret_x != -1)
 	{
-		g_pos.dir = 1;
-		save_put_pos(piece, ret_x, ret_y);
+		save_pos(check_pos);
 		ft_printf("%d %d\n", ret_y, ret_x);
 		return (1);
 	}
@@ -225,6 +396,7 @@ int put_piece_bottom_left(char **map, char **piece, int piece_y)
 {
 	int x;
 	int y;
+	t_pos	check_pos;
 	int ret_x;
 	int ret_y;
 
@@ -232,7 +404,7 @@ int put_piece_bottom_left(char **map, char **piece, int piece_y)
 	ret_x = -1;
 	while (++y < g_mapy)
 	{
-		if (g_mapy - y <= piece_y)
+		if (g_mapy - y < piece_y)
 			break;
 		x = -1;
 		while (++x < g_mapx)
@@ -240,18 +412,18 @@ int put_piece_bottom_left(char **map, char **piece, int piece_y)
 			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
 				possible_put_piece(map, piece, x, y))
 			{
-				if (ret_x == -1 || (ret_x >= x && ret_y <= y))
+				if (ret_x == -1 || check_piece_bottom_left(piece, x, y, check_pos))
 				{
 					ret_x = x;
 					ret_y = y;
+					put_bottom_left_pos(piece, x, y, &check_pos);
 				}
 			}
 		}
 	}
 	if (ret_x != -1)
 	{
-		g_pos.dir = 2;
-		save_put_pos(piece, ret_x, ret_y);
+		save_pos(check_pos);
 		ft_printf("%d %d\n", ret_y, ret_x);
 		return (1);
 	}
@@ -269,7 +441,7 @@ int put_piece_bottom_right(char **map, char **piece, int piece_y)
 	ret_x = -1;
 	while (++y < g_mapy)
 	{
-		if (g_mapy - y <= piece_y)
+		if (g_mapy - y < piece_y)
 			break;
 		x = -1;
 		while (++x < g_mapx)
@@ -300,7 +472,7 @@ int put_piece_top_left(char **map, char **piece, int piece_y)
 	y = -1;
 	while (++y < g_mapy)
 	{
-		if (g_mapy - y <= piece_y)
+		if (g_mapy - y < piece_y)
 			break;
 		x = -1;
 		while (++x < g_mapx)
@@ -314,6 +486,44 @@ int put_piece_top_left(char **map, char **piece, int piece_y)
 				return (1);
 			}
 		}
+	}
+	return (0);
+}
+
+int	put_bottom_piece(char **map, char **piece, int piece_y)
+{
+	int x;
+	int y;
+	int ret_x;
+	t_pos	check_pos;
+	int ret_y;
+
+	y = -1;
+	ret_x = -1;
+	while (++y < g_mapy)
+	{
+		if (g_mapy - y < piece_y)
+			break;
+		x = -1;
+		while (++x < g_mapx)
+		{
+			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
+				possible_put_piece(map, piece, x, y))
+			{
+				if (ret_x == -1 || y > ret_y)
+				{
+					ret_x = x;
+					ret_y = y;
+					put_bottom_pos(piece, x, y, &check_pos);
+				}
+			}
+		}
+	}
+	if (ret_x != -1)
+	{
+		save_pos(check_pos);
+		ft_printf("%d %d\n", ret_y, ret_x);
+		return (1);
 	}
 	return (0);
 }

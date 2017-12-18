@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 13:18:33 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/16 19:06:15 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/18 18:14:09 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,97 +47,61 @@ int		get_func_num(char **map)
 				g_pos.my_x = x;
 				g_pos.my_y = y;
 			}
-			if (map[y][x] == g_enemy)
-			{
-				g_pos.en_x = x;
-				g_pos.en_y = y;
-			}
 		}
 	}
 	return (get_func_num_help());
 }
 
-void	get_enemy_pos_help(int fy, int fx, int sy, int sx)
+int		check_left_flang(char **map)
 {
-	if (fy == -1)
-		return ;
-	else if (sy == -1 || (ABS((g_pos.en_x + g_pos.en_y) - (fy + fx)) >
-					   ABS((g_pos.en_x + g_pos.en_y) - (sy + sx))))
-	{
-		g_pos.en_y = fy;
-		g_pos.en_x = fx;
-	}
-	else
-	{
-		g_pos.en_y = sy;
-		g_pos.en_x = sx;
-	}
+	int	x;
+	int	y;
+	int	check_i;
+
+	x = -1;
+	check_i = 0;
+	while (++x != g_mapx)
+		if (map[g_mapy - 1][x] == g_i_am)
+			check_i = 1;
+	x = -1;
+	while (++x != g_mapx)
+		if (map[g_mapy - 2][x] == g_enemy && !check_i)
+			return (6);
+	y = -1;
+	while (++y != g_mapy / 2)
+		if (map[y][g_mapx - 2] == g_enemy)
+			return (5);
+	x = -1;
+	y = (g_pos.my_y > 4) ? g_pos.my_y - 3 : g_pos.my_y;
+	while (++x != g_pos.my_x)
+		if (map[y][x] == g_enemy)
+			return (2);
+	return (4);
 }
 
-void	get_enemy_pos(char **map)
+int		get_new_func_num(int func_num, char **map)
 {
-	int	x[3];
-	int	y[3];
-
-	y[0] = -1;
-	y[1] = -1;
-	y[2] = -1;
-	while (++(y[0]) < g_mapy)
-	{
-		x[0] = -1;
-		while (++(x[0]) < g_mapx)
-		{
-			if (map[y[0]][x[0]] == 'o' && y[1] == -1)
-			{
-				y[1] = y[0];
-				x[1] = x[0];
-			}
-			if (map[y[0]][x[0]] == 'o' && y[1] != -1)
-			{
-				y[2] = y[0];
-				x[2] = x[0];
-			}
-		}
-	}
-	get_enemy_pos_help(y[1], x[1], y[2], x[2]);
-}
-
-int		get_new_func_num(char **map, int func_num)
-{
-	int	half_gx;
 	int	half_gy;
 
-	get_enemy_pos(map);
-	half_gx = g_mapx / 2;
-	half_gy = g_mapy / 2;
-	if (g_pos.en_y < g_pos.my_y && g_pos.en_x < g_pos.my_x &&
-	g_pos.my_y <= half_gy)
-		return (6);
-	if (g_pos.en_y < g_pos.my_y && g_pos.en_x < g_pos.my_x &&
-		g_pos.my_y > half_gy)
-		return (0);
-	if (g_pos.en_y > g_pos.my_y && g_pos.en_x > g_pos.my_x &&
-		g_pos.my_y >= half_gy)
-		return (7);
-	if (g_pos.en_y > g_pos.my_y && g_pos.en_x > g_pos.my_x &&
-		g_pos.my_y < half_gy)
-		return (3);
-	if (g_pos.en_y < g_pos.my_y && g_pos.en_x > g_pos.my_x &&
-		g_pos.my_y <= half_gy)
-		return (7);
-	if (g_pos.en_y < g_pos.my_y && g_pos.en_x > g_pos.my_x &&
-		g_pos.my_y > half_gy)
+	half_gy = g_mapy / 2 + (g_mapy / (g_mapy / 3));
+	if (func_num == 0 && g_pos.my_y <= half_gy)
+		return (4);
+	if (g_pos.my_x == 0 && (func_num == 4 || func_num == 2))
+		return (5);
+	if (g_pos.my_x > 0 && (func_num == 4 || func_num == 2))
+		return (check_left_flang(map));
+	if (func_num == 5 && g_pos.my_x == g_mapx - 1)
 		return (1);
-	if (g_pos.en_y > g_pos.my_y && g_pos.en_x < g_pos.my_x &&
-		g_pos.my_y >= half_gy)
-		return (6);
-	if (g_pos.en_y > g_pos.my_y && g_pos.en_x < g_pos.my_x &&
-		g_pos.my_y < half_gy)
-		return (2);
+	if (func_num == 6 && g_pos.my_y == g_mapy - 1)
+		return (1);
+	if (func_num == 0)
+		return (1);
+	if (func_num == 1)
+		return (0);
 	return (func_num);
 }
 
-int		continue_fill(char **map, char **piece, int func_num)
+int		continue_fill(char **map, char **piece, int *func_num)
 {
 	char	*line;
 	int		piece_y;
@@ -149,8 +113,8 @@ int		continue_fill(char **map, char **piece, int func_num)
 		return (0);
 	if (!(piece_y = get_piece(&piece)))
 		return (0);
-	func_num = get_new_func_num(map, func_num);
-	if (!(g_put_funcs[func_num])(map, piece, piece_y))
+	*func_num = get_new_func_num(*func_num, map);
+	if (!(g_put_funcs[*func_num])(map, piece, piece_y))
 	{
 		del_map(&piece);
 		return (0);
@@ -169,7 +133,7 @@ void	first_algo(char **map)
 	func_num = get_func_num(map);
 	(g_put_funcs[func_num])(map, piece, piece_y);
 	del_map(&piece);
-	while (continue_fill(map, piece, func_num))
+	while (continue_fill(map, piece, &func_num))
 		;
 	ft_printf("%d %d\n", 0, 0);
 }

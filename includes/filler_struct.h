@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 14:34:45 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/16 18:48:02 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/18 17:06:24 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ t_func	(g_put_funcs[9]) = {
 	put_piece_top_right,
 	put_piece_bottom_left,
 	put_piece_bottom_right,
-	put_piece_bottom,
-	put_piece_top,
 	put_piece_left,
 	put_piece_right,
+	put_bottom_piece,
 	NULL};
 
 #endif
