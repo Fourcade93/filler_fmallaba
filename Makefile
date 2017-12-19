@@ -1,4 +1,4 @@
-SRC := read_input.c map_funcs.c possible_put_piece.c puts_piece.c
+SRC := read_input.c map_funcs.c possible_put_piece.c puts_piece.c check_piece.c
 SRC := $(addprefix src/, $(SRC))
 OBJ := $(SRC:.c=.o)
 INC_DIR = includes/
@@ -19,6 +19,9 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c -o $@ $< -I$(LIB_INC_DIR) -I$(INC_DIR)
+
+visual:
+	$(CC) visual.c -o visualizer $(INC_LIB) -I$(LIB_INC_DIR)
 
 clean:
 	@/bin/rm -f $(OBJ)

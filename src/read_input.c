@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 13:18:33 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/18 18:14:09 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/19 21:10:40 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int		get_func_num(char **map)
 	int	y;
 	
 	y = -1;
-	while (++y < g_mapy)
+	while (map[++y])
 	{
 		x = -1;
-		while (++x < g_mapx)
+		while (map[y][++x])
 		{
 			if (map[y][x] == g_i_am)
 			{
@@ -52,52 +52,41 @@ int		get_func_num(char **map)
 	return (get_func_num_help());
 }
 
-int		check_left_flang(char **map)
+int		check_left_flang(char **map, char **piece)
 {
 	int	x;
 	int	y;
 	int	check_i;
 
-	x = -1;
-	check_i = 0;
-	while (++x != g_mapx)
-		if (map[g_mapy - 1][x] == g_i_am)
-			check_i = 1;
-	x = -1;
-	while (++x != g_mapx)
-		if (map[g_mapy - 2][x] == g_enemy && !check_i)
-			return (6);
 	y = -1;
-	while (++y != g_mapy / 2)
-		if (map[y][g_mapx - 2] == g_enemy)
-			return (5);
+	check_i = 0;
+	while (++y < g_mapy / 3)
+		if (check_piece(piece) && map[y][g_mapx / 2] == g_enemy)
+			return (1);
 	x = -1;
-	y = (g_pos.my_y > 4) ? g_pos.my_y - 3 : g_pos.my_y;
-	while (++x != g_pos.my_x)
-		if (map[y][x] == g_enemy)
-			return (2);
+	while (++x < g_mapx - 2)
+		if (map[g_mapy - 1][x] == g_i_am)
+			return (7);
+	x = -1;
+	while (++x < g_mapx - 2)
+		if (map[g_mapy - g_mapy / 3][x] == g_enemy)
+			return (6);
 	return (4);
 }
 
-int		get_new_func_num(int func_num, char **map)
+int		get_new_func_num(int func_num, char **map, char **piece)
 {
 	int	half_gy;
 
-	half_gy = g_mapy / 2 + (g_mapy / (g_mapy / 3));
+	half_gy = g_mapy - (g_mapy / 5);
 	if (func_num == 0 && g_pos.my_y <= half_gy)
+	{
+		if (check_piece(piece))
+			return (7);
 		return (4);
-	if (g_pos.my_x == 0 && (func_num == 4 || func_num == 2))
-		return (5);
-	if (g_pos.my_x > 0 && (func_num == 4 || func_num == 2))
-		return (check_left_flang(map));
-	if (func_num == 5 && g_pos.my_x == g_mapx - 1)
-		return (1);
-	if (func_num == 6 && g_pos.my_y == g_mapy - 1)
-		return (1);
-	if (func_num == 0)
-		return (1);
-	if (func_num == 1)
-		return (0);
+	}
+	if (func_num == 7 || func_num == 4 || func_num == 6)
+		return (check_left_flang(map, piece));
 	return (func_num);
 }
 
@@ -113,7 +102,7 @@ int		continue_fill(char **map, char **piece, int *func_num)
 		return (0);
 	if (!(piece_y = get_piece(&piece)))
 		return (0);
-	*func_num = get_new_func_num(*func_num, map);
+	*func_num = get_new_func_num(*func_num, map, piece);
 	if (!(g_put_funcs[*func_num])(map, piece, piece_y))
 	{
 		del_map(&piece);
