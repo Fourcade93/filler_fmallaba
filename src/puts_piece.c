@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:30:55 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/19 22:00:07 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/21 15:31:25 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	save_pos(t_pos check_pos)
 	g_pos.my_x = check_pos.my_x;
 	g_pos.my_y = check_pos.my_y;
 }
-
 
 int check_piece_pos(char **piece, int x, int y, t_pos check_pos)
 {
@@ -34,8 +33,8 @@ int check_piece_pos(char **piece, int x, int y, t_pos check_pos)
 		while (piece[i][++j])
 		{
 			if (piece[i][j] == '*' &&
-				ABS(((check_pos.diry - y) + (check_pos.dirx - x))) <
-				ABS(((check_pos.diry - check_pos.my_y) + (check_pos.dirx - check_pos.my_x))))
+				ABS((check_pos.diry - y)) + ABS((check_pos.dirx - x)) <
+					ABS((check_pos.diry - check_pos.my_y)) + ABS((check_pos.dirx - check_pos.my_x)))
 				return (1);
 			x++;
 		}
@@ -61,8 +60,8 @@ void put_pos(char **piece, int x, int y, t_pos *check_pos)
 		while (piece[i][++j])
 		{
 			if (piece[i][j] == '*' && (!check || (check &&
-			ABS((((*check_pos).diry - y) + ((*check_pos).dirx - x))) <
-			ABS((((*check_pos).diry - (*check_pos).my_y) + ((*check_pos).dirx - (*check_pos).my_x))))))
+			ABS(((*check_pos).diry - y)) + ABS(((*check_pos).dirx - x)) <
+			ABS(((*check_pos).diry - (*check_pos).my_y)) + ABS(((*check_pos).dirx - (*check_pos).my_x)))))
 			{
 				(*check_pos).my_x = x;
 				(*check_pos).my_y = y;
@@ -362,7 +361,7 @@ int put_top_piece(char **map, char **piece, int piece_y)
 	y = -1;
 	ret_x = -1;
 	check_pos.diry = 0;
-	check_pos.dirx = g_mapx / 2 + 5;
+	check_pos.dirx = g_mapx / 2;
 	while (++y < g_mapy)
 	{
 		if (g_mapy - y < piece_y)

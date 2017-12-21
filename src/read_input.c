@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 13:18:33 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/19 21:10:40 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/21 15:22:51 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,37 @@ int		get_func_num(char **map)
 
 int		check_left_flang(char **map, char **piece)
 {
-	int	x;
+	// int	x;
 	int	y;
-	int	check_i;
+	// int	check_l;
+	// int	check_r;
 
 	y = -1;
-	check_i = 0;
-	while (++y < g_mapy / 3)
-		if (check_piece(piece) && map[y][g_mapx / 2] == g_enemy)
-			return (1);
-	x = -1;
-	while (++x < g_mapx - 2)
-		if (map[g_mapy - 1][x] == g_i_am)
-			return (7);
-	x = -1;
-	while (++x < g_mapx - 2)
-		if (map[g_mapy - g_mapy / 3][x] == g_enemy)
-			return (6);
-	return (4);
+	while (++y < g_mapy / 2)
+		if (map[y][g_mapx - 1] == g_i_am)
+			return (4);
+	// if (g_pos.my_x == 0)
+	// 	return (5);
+	// y = -1;
+	// check_l = 0;
+	// check_r = 0;
+	// while (++y < g_mapy - 1)
+	// 	(map[y][0] == g_i_am) ? check_l += 1 : check_l;
+	// 	(map[y][g_mapx - 1] == g_i_am) ? check_r += 1 : check_r;
+	// if (check_l && check_r)
+	// 	return (7);
+	// y = (g_pos.my_y > 3) ? g_pos.my_y - 3 : g_mapy / 2;
+	// x = -1;
+	// while (++x < g_mapx - 2)
+	// 	if (map[y][x] == g_enemy)
+	// 		return (2);
+	// x = g_mapx - g_mapx / 4;
+	// y = -1;
+	// while (++y < g_mapy / 4)
+	// 	if (map[y][x] == g_enemy)
+	// 		return (5);
+	check_piece(piece);
+	return (5);
 }
 
 int		get_new_func_num(int func_num, char **map, char **piece)
@@ -79,14 +92,25 @@ int		get_new_func_num(int func_num, char **map, char **piece)
 	int	half_gy;
 
 	half_gy = g_mapy - (g_mapy / 5);
-	if (func_num == 0 && g_pos.my_y <= half_gy)
-	{
-		if (check_piece(piece))
-			return (7);
-		return (4);
-	}
-	if (func_num == 7 || func_num == 4 || func_num == 6)
+	if (func_num == 0 && map[g_mapy - 3][3] != g_i_am)
+		return (2);
+	if (func_num == 0 && map[0][0] == g_i_am)
+		return (3);
+	if (func_num == 2 && g_pos.my_x == 0 && g_pos.my_y > g_mapy - 4)
+		return (5);
+	if (func_num == 5)
 		return (check_left_flang(map, piece));
+	if (func_num == 4 && g_pos.my_x < 4 && g_pos.my_y == g_mapy / 2)
+		return (3);
+	if (func_num == 7 && g_pos.my_y == 0 && g_pos.my_x == g_mapx / 2)
+		return (0);
+	if (func_num == 3 && ((g_pos.my_x == g_mapx - 1 && g_pos.my_y > g_mapy - 2)
+	|| map[g_mapy - 1][g_mapx - 1] == g_enemy))
+		return (7);
+	// if (func_num == 0 && g_pos.my_x > 0)
+	// 	return (4);
+	// if (func_num == 2 || func_num == 4 || func_num == 5)
+	// 	return (check_left_flang(map, piece));
 	return (func_num);
 }
 
