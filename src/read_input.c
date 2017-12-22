@@ -6,37 +6,108 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 13:18:33 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/21 15:22:51 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/22 13:53:03 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
-#include "filler_struct.h"
 
-int		get_func_num_help(void)
+int		check_corner(char **map, t_pos check)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	x = 0;
+	(check.diry == g_mapy - 1) ? y = check.diry - 1 : y;
+	(check.dirx == g_mapx - 1) ? x = check.dirx - 1 : x;
+	if (map[y][x] == g_i_am || map[y][x] == g_enemy)
+		return (0);
+	if (map[y][x + 1] == g_i_am || map[y][x + 1] == g_enemy)
+		return (0);
+	if (map[y + 1][x] == g_i_am || map[y + 1][x] == g_enemy)
+		return (0);
+	if (map[y + 1][x + 1] == g_i_am || map[y + 1][x + 1] == g_enemy)
+		return (0);
+	return (1);
+}
+
+int		check_left_right(char **map, t_pos check)
+{
+	int y;
+
+	y = check.diry;
+	if (map[y][check.dirx] == g_i_am || map[y][check.dirx] == g_enemy)
+		return (0);
+	if (map[y - 1][check.dirx] == g_i_am || map[y - 1][check.dirx] == g_enemy)
+		return (0);
+	if (map[y - 2][check.dirx] == g_i_am || map[y - 2][check.dirx] == g_enemy)
+		return (0);
+	if (map[y + 1][check.dirx] == g_i_am || map[y + 1][check.dirx] == g_enemy)
+		return (0);
+	if (map[y + 2][check.dirx] == g_i_am || map[y + 2][check.dirx] == g_enemy)
+		return (0);
+	return (1);
+}
+
+int		check_top_bottom(char **map, t_pos check)
+{
+	int x;
+
+	x = check.dirx;
+	if (map[check.diry][x] == g_i_am || map[check.diry][x] == g_enemy)
+		return (0);
+	if (map[check.diry][x - 1] == g_i_am || map[check.diry][x - 1] == g_enemy)
+		return (0);
+	if (map[check.diry][x - 2] == g_i_am || map[check.diry][x - 2] == g_enemy)
+		return (0);
+	if (map[check.diry][x + 1] == g_i_am || map[check.diry][x + 1] == g_enemy)
+		return (0);
+	if (map[check.diry][x + 2] == g_i_am || map[check.diry][x + 2] == g_enemy)
+		return (0);
+	return (1);
+}
+
+int		check_point(char **map, t_pos check)
+{
+	if ((check.dirx == g_mapx - 1 || check.dirx == 0) &&
+	(check.diry == 0 || check.diry == g_mapy - 1))
+		return (check_corner(map, check));
+	if (check.diry == g_mapy / 2 && (check.dirx == 0 || check.dirx == g_mapx - 1))
+		return (check_left_right(map, check));
+	if (check.dirx == g_mapx / 2 && (check.diry == 0 || check.diry == g_mapy - 1))
+		return (check_top_bottom(map, check));
+	return (1);
+}
+
+t_pos	*get_pos_help(int my_x, int my_y)
 {
 	int	half_gx;
 	int	half_gy;
 
 	half_gx = g_mapx / 2;
 	half_gy = g_mapy / 2;
-	if (g_pos.my_x >= half_gx && g_pos.my_y >= half_gy)
-		return (0);
-	if (g_pos.my_x < half_gx && g_pos.my_y >= half_gy)
-		return (1);
-	if (g_pos.my_x >= half_gx && g_pos.my_y < half_gy)
-		return (2);
-	if (g_pos.my_x < half_gx && g_pos.my_y < half_gy)
-		return (3);
-	return (0);
+	if (my_x >= half_gx && my_y >= half_gy)
+		return (top_left());
+	if (my_x < half_gx && my_y >= half_gy)
+		return (top_right());
+	if (my_x >= half_gx && my_y < half_gy)
+		return (bottom_left());
+	if (my_x < half_gx && my_y < half_gy)
+		return (bottom_right());
+	return (top_left());
 }
 
-int		get_func_num(char **map)
+t_pos	*get_pos(char **map)
 {
 	int	x;
 	int	y;
+	int	my_x;
+	int	my_y;
 	
 	y = -1;
+	my_x = 0;
+	my_y = 0;
 	while (map[++y])
 	{
 		x = -1;
@@ -44,110 +115,50 @@ int		get_func_num(char **map)
 		{
 			if (map[y][x] == g_i_am)
 			{
-				g_pos.my_x = x;
-				g_pos.my_y = y;
+				my_x = x;
+				my_y = y;
+				return (get_pos_help(my_x, my_y));
 			}
 		}
 	}
-	return (get_func_num_help());
+	return (get_pos_help(my_x, my_y));
 }
 
-int		check_left_flang(char **map, char **piece)
+void	continue_fill(char **map, char **piece, t_pos *pos, int piece_y)
 {
-	// int	x;
-	int	y;
-	// int	check_l;
-	// int	check_r;
+	int		i;
 
-	y = -1;
-	while (++y < g_mapy / 2)
-		if (map[y][g_mapx - 1] == g_i_am)
-			return (4);
-	// if (g_pos.my_x == 0)
-	// 	return (5);
-	// y = -1;
-	// check_l = 0;
-	// check_r = 0;
-	// while (++y < g_mapy - 1)
-	// 	(map[y][0] == g_i_am) ? check_l += 1 : check_l;
-	// 	(map[y][g_mapx - 1] == g_i_am) ? check_r += 1 : check_r;
-	// if (check_l && check_r)
-	// 	return (7);
-	// y = (g_pos.my_y > 3) ? g_pos.my_y - 3 : g_mapy / 2;
-	// x = -1;
-	// while (++x < g_mapx - 2)
-	// 	if (map[y][x] == g_enemy)
-	// 		return (2);
-	// x = g_mapx - g_mapx / 4;
-	// y = -1;
-	// while (++y < g_mapy / 4)
-	// 	if (map[y][x] == g_enemy)
-	// 		return (5);
-	check_piece(piece);
-	return (5);
-}
-
-int		get_new_func_num(int func_num, char **map, char **piece)
-{
-	int	half_gy;
-
-	half_gy = g_mapy - (g_mapy / 5);
-	if (func_num == 0 && map[g_mapy - 3][3] != g_i_am)
-		return (2);
-	if (func_num == 0 && map[0][0] == g_i_am)
-		return (3);
-	if (func_num == 2 && g_pos.my_x == 0 && g_pos.my_y > g_mapy - 4)
-		return (5);
-	if (func_num == 5)
-		return (check_left_flang(map, piece));
-	if (func_num == 4 && g_pos.my_x < 4 && g_pos.my_y == g_mapy / 2)
-		return (3);
-	if (func_num == 7 && g_pos.my_y == 0 && g_pos.my_x == g_mapx / 2)
-		return (0);
-	if (func_num == 3 && ((g_pos.my_x == g_mapx - 1 && g_pos.my_y > g_mapy - 2)
-	|| map[g_mapy - 1][g_mapx - 1] == g_enemy))
-		return (7);
-	// if (func_num == 0 && g_pos.my_x > 0)
-	// 	return (4);
-	// if (func_num == 2 || func_num == 4 || func_num == 5)
-	// 	return (check_left_flang(map, piece));
-	return (func_num);
-}
-
-int		continue_fill(char **map, char **piece, int *func_num)
-{
-	char	*line;
-	int		piece_y;
-
-	del_map(&map);
-	get_next_line(0, &line);
-	get_next_line(0, &line);
-	if (!get_map(&map))
-		return (0);
-	if (!(piece_y = get_piece(&piece)))
-		return (0);
-	*func_num = get_new_func_num(*func_num, map, piece);
-	if (!(g_put_funcs[*func_num])(map, piece, piece_y))
+	i = -1;
+	while (pos[++i].dirx != -1)
+		while (check_point(map, pos[i]))
+		{
+			if (!put_piece(map, piece, piece_y, pos[i]))
+				return ;
+			del_map(&map);
+			del_map(&piece);
+			get_map(&map);
+			piece_y = get_piece(&piece);
+		}
+	(pos[i]).dirx = g_mapx / 2;
+	(pos[i]).diry = g_mapy / 2;
+	while (put_piece(map, piece, piece_y, pos[i]))
 	{
+		del_map(&map);
 		del_map(&piece);
-		return (0);
+		get_map(&map);
+		piece_y = get_piece(&piece);
 	}
-	del_map(&piece);
-	return (1);
 }
 
 void	first_algo(char **map)
 {
 	char	**piece;
 	int		piece_y;
-	int		func_num;
+	t_pos	*pos;
 
 	piece_y = get_piece(&piece);
-	func_num = get_func_num(map);
-	(g_put_funcs[func_num])(map, piece, piece_y);
-	del_map(&piece);
-	while (continue_fill(map, piece, &func_num))
-		;
+	pos = get_pos(map);
+	continue_fill(map, piece, pos, piece_y);
 	ft_printf("%d %d\n", 0, 0);
 }
 
@@ -165,6 +176,7 @@ void	read_map(void)
 	else
 		g_enemy = 'O';
 	first_algo(map);
+	free(map);
 }
 
 int		main(void)

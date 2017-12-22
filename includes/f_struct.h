@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   filler_struct.h                                    :+:      :+:    :+:   */
+/*   f_struct.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/16 14:34:45 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/19 20:21:51 by fmallaba         ###   ########.fr       */
+/*   Created: 2017/12/21 16:24:44 by fmallaba          #+#    #+#             */
+/*   Updated: 2017/12/21 18:35:16 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLER_STRUCT_H
-# define FILLER_STRUCT_H
+#ifndef F_STRUCT
+# define F_STRUCT
 
 # include "filler.h"
 
-t_func	(g_put_funcs[9]) = {
-	put_piece_top_left,
-	put_piece_top_right,
-	put_piece_bottom_left,
-	put_piece_bottom_right,
-	put_piece_left,
-	put_piece_right,
-	put_bottom_piece,
-	put_top_piece,
-	NULL};
+// int	(*g_funcs[4])() = {
+// 	top_left,
+// 	top_right,
+// 	bottom_right,
+// 	bottom_left
+// };
 
 #endif

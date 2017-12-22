@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 19:38:15 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/15 19:40:06 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/21 20:20:45 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		get_map(char ***map)
 	i = 0;
 	while (get_next_line(0, &line))
 	{
-		(*map)[i++] = ft_strsub(line, 4, g_mapx);
+		if (line[0] == '0')
+			(*map)[i++] = ft_strsub(line, 4, g_mapx);
 		if (ft_atoi(line) == g_mapy - 1)
 			break;
 		ft_strdel(&line);
