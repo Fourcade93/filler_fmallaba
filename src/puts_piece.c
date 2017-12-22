@@ -6,17 +6,11 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:30:55 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/21 19:34:13 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/22 21:40:14 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
-
-void	save_pos(t_pos check_pos)
-{
-	g_pos.my_x = check_pos.my_x;
-	g_pos.my_y = check_pos.my_y;
-}
 
 int		check_piece_pos(char **piece, int x, int y, t_pos point)
 {
@@ -77,12 +71,12 @@ int		put_piece(char **map, char **piece, int piece_y, t_pos point)
 
 	y = -1;
 	ret.my_x = -1;
-	while (++y < g_mapy)
+	while (map[++y])
 	{
-		if (g_mapy - y < piece_y)
+		if (!map[y + piece_y])
 			break;
 		x = -1;
-		while (++x < g_mapx)
+		while (map[y][++x])
 			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&
 				possible_put_piece(map, piece, x, y))
 				if (ret.my_x == -1 || check_piece_pos(piece, x, y, point))

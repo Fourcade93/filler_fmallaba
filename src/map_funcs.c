@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 19:38:15 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/21 20:20:45 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/22 21:25:23 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		get_piece(char ***piece)
 	return (piece_y);
 }
 
-int		get_map(char ***map)
+int		get_map(char ***map, t_pos map_size)
 {
 	int i;
 	char *line;
@@ -41,14 +41,14 @@ int		get_map(char ***map)
 	while (get_next_line(0, &line))
 	{
 		if (line[0] == '0')
-			(*map)[i++] = ft_strsub(line, 4, g_mapx);
-		if (ft_atoi(line) == g_mapy - 1)
+			(*map)[i++] = ft_strsub(line, 4, map_size.my_x);
+		if (ft_atoi(line) == map_size.my_y - 1)
 			break;
 		ft_strdel(&line);
 	}
 	(*map)[i] = 0;
 	ft_strdel(&line);
-	if (i < g_mapy)
+	if (i < map_size.my_y)
 		return (0);
 	return (1);
 }
