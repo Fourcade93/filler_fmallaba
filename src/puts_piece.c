@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:30:55 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:40:14 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 12:01:28 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		put_piece(char **map, char **piece, int piece_y, t_pos point)
 	while (map[++y])
 	{
 		if (!map[y + piece_y])
-			break;
+			break ;
 		x = -1;
 		while (map[y][++x])
 			if ((map[y][x] == '.' || map[y][x] == g_i_am) &&

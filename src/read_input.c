@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 13:18:33 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:44:53 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 12:01:01 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	continue_fill(char **map, t_pos *pos, t_pos map_size)
 	i = -1;
 	piece_y = get_piece(&piece);
 	while (pos[++i].dirx != -1)
-		while (check_point(map, pos[i]))
+		while (check_point(map, pos[i], map_size))
 		{
 			if (!put_piece(map, piece, piece_y, pos[i]))
 				return ;
@@ -83,8 +83,8 @@ int		main(void)
 			g_i_am = 'X';
 		if (ft_strstr(line, "Plateau"))
 		{
-			map_size.my_x = ft_atoi(ft_strchr(line, ' '));
-			map_size.my_y = ft_atoi(ft_strrchr(line, ' '));
+			map_size.my_y = ft_atoi(ft_strchr(line, ' '));
+			map_size.my_x = ft_atoi(ft_strrchr(line, ' '));
 			break ;
 		}
 		ft_strdel(&line);

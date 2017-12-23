@@ -6,13 +6,13 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/22 21:28:36 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:36:32 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 11:59:54 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-t_pos *get_pos_help(int my_x, int my_y, t_pos map_size)
+t_pos	*get_pos_help(int my_x, int my_y, t_pos map_size)
 {
 	int half_gx;
 	int half_gy;
@@ -30,7 +30,7 @@ t_pos *get_pos_help(int my_x, int my_y, t_pos map_size)
 	return (top_left(map_size));
 }
 
-t_pos *get_pos(char **map, t_pos map_size)
+t_pos	*get_pos(char **map, t_pos map_size)
 {
 	int x;
 	int y;

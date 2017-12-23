@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 16:17:06 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:25:25 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 12:00:52 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_pos	*top_left(t_pos map_size)
 	return (arr);
 }
 
-t_pos *top_right(t_pos map_size)
+t_pos	*top_right(t_pos map_size)
 {
 	t_pos *arr;
 
@@ -54,7 +54,7 @@ t_pos *top_right(t_pos map_size)
 	return (arr);
 }
 
-t_pos *bottom_left(t_pos map_size)
+t_pos	*bottom_left(t_pos map_size)
 {
 	t_pos *arr;
 
@@ -75,7 +75,7 @@ t_pos *bottom_left(t_pos map_size)
 	return (arr);
 }
 
-t_pos *bottom_right(t_pos map_size)
+t_pos	*bottom_right(t_pos map_size)
 {
 	t_pos *arr;
 

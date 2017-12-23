@@ -1,0 +1,90 @@
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 166
+== X fin: 1798
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 76
+== X fin: 4
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 683
+== X fin: 1256
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 412
+== X fin: 1481
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 1700
+== X fin: 119
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 763
+== X fin: 1130
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 927
+== X fin: 27
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 713
+== X fin: 1212
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 51
+== X fin: 1810
+# -------------- VM  version 1.1 ------------- #
+#                                              #
+# 42 / filler VM Developped by: Hcao - Abanlin #
+#                                              #
+# -------------------------------------------- #
+launched ../resources/players/superjeannot.filler
+launched ../test/fmallaba.filler
+== O fin: 727
+== X fin: 1153

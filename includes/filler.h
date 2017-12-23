@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 13:39:31 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:44:06 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 11:55:15 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_pos			*bottom_left(t_pos map_size);
 t_pos			*bottom_right(t_pos map_size);
 
 int				check_piece(char **piece);
-int				check_point(char **map, t_pos check);
+int				check_point(char **map, t_pos check, t_pos map_size);
 t_pos			*get_pos(char **map, t_pos map_size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 19:38:15 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:25:23 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 11:59:41 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int		get_piece(char ***piece)
 {
-	int piece_x;
-	int piece_y;
-	int i;
-	char *line;
+	int		piece_x;
+	int		piece_y;
+	int		i;
+	char	*line;
 
 	if (!get_next_line(0, &line))
 		return (0);
@@ -34,8 +34,8 @@ int		get_piece(char ***piece)
 
 int		get_map(char ***map, t_pos map_size)
 {
-	int i;
-	char *line;
+	int		i;
+	char	*line;
 
 	i = 0;
 	while (get_next_line(0, &line))
@@ -43,7 +43,7 @@ int		get_map(char ***map, t_pos map_size)
 		if (line[0] == '0')
 			(*map)[i++] = ft_strsub(line, 4, map_size.my_x);
 		if (ft_atoi(line) == map_size.my_y - 1)
-			break;
+			break ;
 		ft_strdel(&line);
 	}
 	(*map)[i] = 0;

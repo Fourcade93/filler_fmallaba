@@ -6,21 +6,21 @@
 /*   By: fmallaba <fmallaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/22 21:26:23 by fmallaba          #+#    #+#             */
-/*   Updated: 2017/12/22 21:28:04 by fmallaba         ###   ########.fr       */
+/*   Updated: 2017/12/23 12:00:34 by fmallaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-int check_corner(char **map, t_pos check)
+int		check_corner(char **map, t_pos check, t_pos map_size)
 {
 	int x;
 	int y;
 
 	y = 0;
 	x = 0;
-	(check.diry == g_mapy - 1) ? y = check.diry - 1 : y;
-	(check.dirx == g_mapx - 1) ? x = check.dirx - 1 : x;
+	(check.diry == map_size.my_y - 1) ? y = check.diry - 1 : y;
+	(check.dirx == map_size.my_x - 1) ? x = check.dirx - 1 : x;
 	if (map[y][x] == g_i_am || map[y][x] == g_enemy)
 		return (0);
 	if (map[y][x + 1] == g_i_am || map[y][x + 1] == g_enemy)
@@ -32,7 +32,7 @@ int check_corner(char **map, t_pos check)
 	return (1);
 }
 
-int check_left_right(char **map, t_pos check)
+int		check_left_right(char **map, t_pos check)
 {
 	int y;
 
@@ -50,7 +50,7 @@ int check_left_right(char **map, t_pos check)
 	return (1);
 }
 
-int check_top_bottom(char **map, t_pos check)
+int		check_top_bottom(char **map, t_pos check)
 {
 	int x;
 
@@ -68,14 +68,16 @@ int check_top_bottom(char **map, t_pos check)
 	return (1);
 }
 
-int check_point(char **map, t_pos check)
+int		check_point(char **map, t_pos check, t_pos map_size)
 {
-	if ((check.dirx == g_mapx - 1 || check.dirx == 0) &&
-		(check.diry == 0 || check.diry == g_mapy - 1))
-		return (check_corner(map, check));
-	if (check.diry == g_mapy / 2 && (check.dirx == 0 || check.dirx == g_mapx - 1))
+	if ((check.dirx == map_size.my_x - 1 || check.dirx == 0) &&
+		(check.diry == 0 || check.diry == map_size.my_y - 1))
+		return (check_corner(map, check, map_size));
+	if (check.diry == map_size.my_y / 2 &&
+	(check.dirx == 0 || check.dirx == map_size.my_x - 1))
 		return (check_left_right(map, check));
-	if (check.dirx == g_mapx / 2 && (check.diry == 0 || check.diry == g_mapy - 1))
+	if (check.dirx == map_size.my_x / 2 &&
+	(check.diry == 0 || check.diry == map_size.my_y - 1))
 		return (check_top_bottom(map, check));
 	return (1);
 }
